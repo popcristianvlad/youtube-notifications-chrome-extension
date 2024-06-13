@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Notifications Chrome Extension",
+  "version": "1.0",
+  "description": "Adds a custom buttons to the YouTube page.",
+  "permissions": [
+    "activeTab"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "48": "icon.png"
+  }
+}
