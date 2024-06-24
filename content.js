@@ -2,9 +2,15 @@ function addButtons() {
     const notifications = document.querySelectorAll('ytd-notification-renderer');
     notifications.forEach(notification => {
         // Check if the buttons already exist to avoid adding them multiple times
-        if (notification.querySelector('#my-open-button') || notification.querySelector('#my-closed-button')) {
+        if (notification.querySelector('#my-open-button') || notification.querySelector('#my-close-button')) {
             return;
         }
+
+        // Create the "Closed" button
+        const closeButton = document.createElement('button');
+        closeButton.id = 'my-close-button';
+        closeButton.innerText = 'Close';
+        closeButton.classList.add('my-close-button');
 
         // Create the "Open" button
         const openButton = document.createElement('button');
@@ -12,11 +18,10 @@ function addButtons() {
         openButton.innerText = 'Open';
         openButton.classList.add('my-open-button');
 
-        // Create the "Closed" button
-        const closedButton = document.createElement('button');
-        closedButton.id = 'my-closed-button';
-        closedButton.innerText = 'Closed';
-        closedButton.classList.add('my-closed-button');
+        closeButton.addEventListener('click', () => {
+            // Simulate clicking the "Hide this notification" option
+            simulateHideNotification(notification);
+        });
 
         // Add event listeners to the buttons
         openButton.addEventListener('click', () => {
@@ -28,26 +33,10 @@ function addButtons() {
             }
         });
 
-        closedButton.addEventListener('click', () => {
-            // Simulate clicking the "Hide this notification" option
-            simulateHideNotification(notification);
-        });
-
         // Append the buttons to the notification element
+        notification.appendChild(closeButton);
         notification.appendChild(openButton);
-        notification.appendChild(closedButton);
     });
-}
-
-function extractVideoUrl(notification) {
-    // Implement your logic to extract the video URL or ID from the notification element
-    // Example: Look for a link, data attribute, or any other relevant information
-    // For demonstration, assume the video URL is extracted from a child element
-    const videoLinkElement = notification.querySelector('a'); // Example: Assuming a link element
-    if (videoLinkElement) {
-        return videoLinkElement.href; // Return the href attribute of the link
-    }
-    return null; // Return null if no video URL is found
 }
 
 function simulateHideNotification(notification) {
@@ -59,6 +48,17 @@ function simulateHideNotification(notification) {
     } else {
         console.log('Could not find the hide button for this notification.');
     }
+}
+
+function extractVideoUrl(notification) {
+    // Implement your logic to extract the video URL or ID from the notification element
+    // Example: Look for a link, data attribute, or any other relevant information
+    // For demonstration, assume the video URL is extracted from a child element
+    const videoLinkElement = notification.querySelector('a'); // Example: Assuming a link element
+    if (videoLinkElement) {
+        return videoLinkElement.href; // Return the href attribute of the link
+    }
+    return null; // Return null if no video URL is found
 }
 
 // Debounce function to limit the rate at which a function can fire
@@ -84,20 +84,21 @@ observer.observe(document.body, { childList: true, subtree: true });
 // Add styles through CSS
 const style = document.createElement('style');
 style.textContent = `
-    .my-open-button, .my-closed-button {
-        margin-left: 5px;
+    .my-close-button, .my-open-button {
         padding: 1px 3px;
-        font-size: 10px;
+        font-size: 14px;
         border: none;
         border-radius: 3px;
         cursor: pointer;
         color: #fff;
     }
-    .my-open-button {
-        background-color: #008000; /* Green */
-    }
-    .my-closed-button {
+    .my-close-button {
+        margin-left: 2px;
         background-color: #ff0000; /* Red */
+    }
+    .my-open-button {
+        margin-left: 12px;
+        background-color: #008000; /* Green */
     }
 `;
 document.head.appendChild(style);
