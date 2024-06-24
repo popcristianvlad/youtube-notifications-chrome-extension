@@ -1,13 +1,5 @@
-// content.js
-window.addEventListener('load', () => {
-    // Wait for the YouTube page to fully load
-    setTimeout(addButtons, 1000);
-});
-
 function addButtons() {
-    // Get all <ytd-notification-renderer> elements with the specified classes
-    const notifications = document.querySelectorAll('ytd-notification-renderer.style-scope.yt-multi-page-menu-section-renderer.unread');
-
+    const notifications = document.querySelectorAll('ytd-notification-renderer');
     notifications.forEach(notification => {
         // Check if the button already exists to avoid adding it multiple times
         if (notification.querySelector('#my-custom-button')) {
@@ -36,3 +28,10 @@ function addButtons() {
         notification.appendChild(button);
     });
 }
+
+// Check for notifications when the page loads
+window.addEventListener('load', addButtons);
+
+// Optionally, observe changes in the notifications area
+const observer = new MutationObserver(addButtons);
+observer.observe(document.body, {childList: true, subtree: true});
