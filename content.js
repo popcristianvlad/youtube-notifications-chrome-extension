@@ -85,12 +85,15 @@ observer.observe(document.body, { childList: true, subtree: true });
 const style = document.createElement('style');
 style.textContent = `
     .my-close-button, .my-open-button {
-        padding: 1px 3px;
+        padding: 7px;
         font-size: 14px;
         border: none;
         border-radius: 3px;
         cursor: pointer;
         color: #fff;
+        height: fit-content;
+        display: flex;
+        align-items: center;
     }
     .my-close-button {
         margin-left: 2px;
