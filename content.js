@@ -61,6 +61,17 @@ function extractVideoUrl(notification) {
     return null; // Return null if no video URL is found
 }
 
+// Function to increase the width of the notification dropdown
+function increaseDropdownWidth() {
+    const dropdown = document.querySelector('ytd-multi-page-menu-renderer[slot="dropdown-content"].style-scope.ytd-popup-container');
+    if (dropdown) {
+        dropdown.style.width = '600px'; // Set the desired width
+        console.log('Notification dropdown found.');
+    } else {
+        console.log('Notification dropdown not found.');
+    }
+}
+
 // Debounce function to limit the rate at which a function can fire
 function debounce(func, wait) {
     let timeout;
@@ -74,11 +85,17 @@ function debounce(func, wait) {
     };
 }
 
-// Check for notifications when the page loads
-window.addEventListener('load', addButtons);
+// Check for notifications and increase dropdown width when the page loads
+window.addEventListener('load', () => {
+    addButtons();
+    increaseDropdownWidth();
+});
 
 // Observe changes in the notifications area
-const observer = new MutationObserver(debounce(addButtons, 200));
+const observer = new MutationObserver(debounce(() => {
+    addButtons();
+    increaseDropdownWidth();
+}, 200));
 observer.observe(document.body, { childList: true, subtree: true });
 
 // Add styles through CSS
